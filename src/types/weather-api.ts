@@ -169,7 +169,6 @@ export const testData: WeatherApiResponse = {
                     maxtemp_c: 21.6,
                     mintemp_c: 11.3,
                     avgtemp_c: 16.8,
-                    avgtemp_f: 62.2,
                     maxwind_kph: 21.6,
                     totalprecip_mm: 0.08,
                     totalsnow_cm: 0.0,
