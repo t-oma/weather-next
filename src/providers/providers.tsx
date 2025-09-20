@@ -1,3 +1,5 @@
+"use client";
+
 import { QueryProvider } from "./query";
 import WeatherStoreProvider from "./weather";
 
