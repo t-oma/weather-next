@@ -1,39 +1,38 @@
 "use client";
 
 import { Separator } from "../ui/separator";
-import {
-    Cloud,
-    Droplet,
-    Moon,
-    Sunrise,
-    Sunset,
-    Thermometer,
-    Umbrella,
-    Wind,
-} from "lucide-react";
-import DetailsCard from "./DetailsCard";
 import DetailsTemperature from "./DetailsTemperature";
-import DetailsItem from "./DetailsItem";
-import { useWeatherStore } from "@/providers/weather";
 import { Skeleton } from "../ui/skeleton";
 import WindCard from "./WindCard";
 import HumidityCard from "./HumidityCard";
 import AstrologyCard from "./AstrologyCard";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 
 export default function Details() {
-    const weather = useWeatherStore((state) => state.weather);
-    const loading = useWeatherStore((state) => state.loading);
-    const error = useWeatherStore((state) => state.error);
+    const { coords, error: geoError, loading: geoLoading } = useGeolocation();
+    const {
+        data: weather,
+        error: fetchError,
+        isFetching,
+    } = useWeatherQuery(coords);
 
-    if (error) {
+    if (geoError) {
         return (
             <div className="flex flex-1/3 items-center justify-center">
-                <p className="text-xl font-semibold">{error}</p>
+                <p className="text-xl font-semibold">{geoError}</p>
+            </div>
+        );
+    }
+    if (fetchError) {
+        return (
+            <div className="flex flex-1/3 items-center justify-center">
+                <p className="text-xl font-semibold">{fetchError.message}</p>
             </div>
         );
     }
 
-    if (!weather) {
+    if (!weather || isFetching) {
         return (
             <section className="flex flex-1 flex-col overflow-y-scroll scroll-smooth px-4">
                 <h2 className="sr-only">Weather details</h2>

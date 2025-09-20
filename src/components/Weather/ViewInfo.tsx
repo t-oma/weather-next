@@ -1,22 +1,40 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import { useWeatherStore } from "@/providers/weather";
 import { Skeleton } from "../ui/skeleton";
+import { useWeatherQuery } from "@/hooks/useWeatherQuery";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { WeatherApiResponse } from "@/types/weather-api";
+
+const weatherSelector = (data: WeatherApiResponse) => ({
+    current: data.current,
+    location: data.location,
+});
 
 export default function ViewInfo() {
-    const weather = useWeatherStore((s) => s.weather);
-    const error = useWeatherStore((s) => s.error);
+    const { coords, error: geoError, loading: geoLoading } = useGeolocation();
+    const {
+        data: weather,
+        error: fetchError,
+        isFetching,
+    } = useWeatherQuery(coords, weatherSelector);
 
-    if (error) {
+    if (geoError) {
         return (
             <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-sm text-red-400">{error}</p>
+                <p className="text-sm text-red-400">{geoError}</p>
+            </div>
+        );
+    }
+    if (fetchError) {
+        return (
+            <div className="absolute inset-0 flex items-center justify-center">
+                <p className="text-sm text-red-400">{fetchError.message}</p>
             </div>
         );
     }
 
-    if (!weather) {
+    if (!weather || isFetching) {
         return (
             <div className="absolute right-6 bottom-6 left-6">
                 <div className="flex flex-col text-white">
