@@ -1,100 +1,78 @@
-import { testData } from "@/types/weather-api";
+"use client";
+
 import { Separator } from "../ui/separator";
-import { Cloud, Droplet, Eye, Thermometer, Umbrella, Wind } from "lucide-react";
+import {
+    Cloud,
+    Droplet,
+    Moon,
+    Sunrise,
+    Sunset,
+    Thermometer,
+    Umbrella,
+    Wind,
+} from "lucide-react";
 import DetailsCard from "./DetailsCard";
 import DetailsTemperature from "./DetailsTemperature";
 import DetailsItem from "./DetailsItem";
+import { useWeatherStore } from "@/providers/weather";
+import { Skeleton } from "../ui/skeleton";
+import WindCard from "./WindCard";
+import HumidityCard from "./HumidityCard";
+import AstrologyCard from "./AstrologyCard";
 
 export default function Details() {
-    const weather = testData;
+    const weather = useWeatherStore((state) => state.weather);
+    const loading = useWeatherStore((state) => state.loading);
+    const error = useWeatherStore((state) => state.error);
 
-    return (
-        <div className="flex flex-1/3 flex-col">
-            <div className="text-background flex flex-col items-center justify-center bg-black p-4">
-                <p className="font-semibold">Weather Next</p>
-                <p className="text-muted text-xs">by Artem Levchenko</p>
+    if (error) {
+        return (
+            <div className="flex flex-1/3 items-center justify-center">
+                <p className="text-xl font-semibold">{error}</p>
             </div>
-            <section className="flex flex-1 flex-col px-4">
+        );
+    }
+
+    if (!weather) {
+        return (
+            <section className="flex flex-1 flex-col overflow-y-scroll scroll-smooth px-4">
                 <h2 className="sr-only">Weather details</h2>
-
-                <DetailsTemperature
-                    temp={weather.current.temp_c}
-                    feelslike={weather.current.feelslike_c}
-                />
-
+                <div className="flex items-center justify-evenly gap-2 p-2">
+                    <Skeleton className="bg-secondary h-[44px] w-16" />
+                    <Skeleton className="bg-secondary h-[44px] w-16" />
+                </div>
                 <Separator className="" />
-
                 <div className="flex flex-1 flex-col gap-4 py-4">
-                    <DetailsCard
-                        title="Wind"
-                        className="to-secondary from-purple-400"
-                    >
-                        <div className="flex flex-1 flex-col justify-center gap-4">
-                            <DetailsItem
-                                title="Wind"
-                                icon={<Wind size={24} />}
-                                iconBg="bg-purple-500/50"
-                            >
-                                {weather.current.wind_kph} km/h
-                            </DetailsItem>
-                            <div className="flex items-center gap-8">
-                                <DetailsItem
-                                    title="Windchill"
-                                    titled
-                                    icon={<Thermometer size={20} />}
-                                    iconBg="bg-purple-500/50"
-                                >
-                                    {weather.current.windchill_c} °C
-                                </DetailsItem>
-                                <DetailsItem
-                                    title="Clouds"
-                                    titled
-                                    icon={<Cloud size={20} />}
-                                    iconBg="bg-purple-500/50"
-                                >
-                                    {weather.current.cloud} %
-                                </DetailsItem>
-                            </div>
-                        </div>
-                    </DetailsCard>
-                    <DetailsCard
-                        title="Humidity"
-                        className="from-primary to-secondary"
-                    >
-                        <div className="flex flex-1 flex-col justify-center gap-4">
-                            <DetailsItem
-                                title="Precipitation"
-                                icon={<Droplet size={24} />}
-                                iconBg="bg-primary-500/50"
-                            >
-                                {weather.current.precip_mm} mm
-                            </DetailsItem>
-                            <div className="flex items-center gap-8">
-                                <DetailsItem
-                                    title="Humidity"
-                                    titled
-                                    icon={<Droplet size={20} />}
-                                    iconBg="bg-primary-500/50"
-                                >
-                                    {weather.current.humidity} %
-                                </DetailsItem>
-                                <DetailsItem
-                                    title="Rain Chance"
-                                    titled
-                                    icon={<Umbrella size={20} />}
-                                    iconBg="bg-primary-500/50"
-                                >
-                                    {
-                                        weather.forecast.forecastday[0].day
-                                            .daily_chance_of_rain
-                                    }{" "}
-                                    %
-                                </DetailsItem>
-                            </div>
-                        </div>
-                    </DetailsCard>
+                    <Skeleton className="h-full min-h-40 w-full bg-purple-300/50" />
+                    <Skeleton className="bg-primary-300/50 h-full min-h-40 w-full" />
+                    <Skeleton className="h-full min-h-40 w-full bg-green-300/50" />
                 </div>
             </section>
-        </div>
+        );
+    }
+
+    return (
+        <section className="flex flex-1 flex-col overflow-y-scroll scroll-smooth px-4">
+            <h2 className="sr-only">Weather details</h2>
+            <DetailsTemperature
+                temp={weather.current.temp_c}
+                feelslike={weather.current.feelslike_c}
+            />
+            <Separator className="" />
+            <div className="flex flex-1 flex-col gap-4 py-4">
+                <WindCard {...weather.current} />
+                <HumidityCard
+                    {...weather.current}
+                    {...weather.forecast.forecastday[0].day}
+                />
+                <AstrologyCard {...weather.forecast.forecastday[0].astro} />
+            </div>
+        </section>
     );
 }
+
+// [&::-webkit-scrollbar]:w-2
+// [&::-webkit-scrollbar-thumb]:rounded-full
+// [&::-webkit-scrollbar-thumb]:bg-zinc-300
+// [&::-webkit-scrollbar-track]:rounded-full
+// [&::-webkit-scrollbar-track]:bg-zinc-100
