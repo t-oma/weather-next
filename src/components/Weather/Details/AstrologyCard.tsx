@@ -8,7 +8,7 @@ function AstrologyCard({ sunrise, sunset, moon_phase }: DayAstro) {
     return (
         <DetailsCard
             title="Astrology"
-            className="to-secondary from-green-300"
+            className="to-secondary from-green-500"
         >
             <div className="flex flex-1 flex-col justify-center gap-4">
                 <div className="flex items-center gap-12">
