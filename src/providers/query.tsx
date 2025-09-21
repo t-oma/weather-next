@@ -59,6 +59,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             client={queryClient}
             persistOptions={{
                 persister,
+                buster: "v1",
                 maxAge: 5 * 60 * 1000,
                 // dehydrateOptions: {
                 //   shouldDehydrateQuery: (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "weather",
