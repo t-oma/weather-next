@@ -1,13 +1,13 @@
 "use client";
 
-import { Separator } from "../ui/separator";
-import DetailsTemperature from "./DetailsTemperature";
-import { Skeleton } from "../ui/skeleton";
 import WindCard from "./WindCard";
 import HumidityCard from "./HumidityCard";
 import AstrologyCard from "./AstrologyCard";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import DetailsTemperature from "./Temperature";
 
 export default function Details() {
     const { coords, error: geoError, loading: geoLoading } = useGeolocation();

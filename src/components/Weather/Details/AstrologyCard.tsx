@@ -1,6 +1,6 @@
 import { Moon, Sunrise, Sunset } from "lucide-react";
-import DetailsCard from "./DetailsCard";
-import DetailsItem from "./DetailsItem";
+import DetailsCard from "./Card";
+import DetailsItem from "./Item";
 import { DayAstro } from "@/types/weather-api";
 
 export default function AstrologyCard({

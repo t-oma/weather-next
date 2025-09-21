@@ -1,5 +1,5 @@
 import { ClassNameValue } from "tailwind-merge";
-import DetailsIconWrapper from "./DetailsIconWrapper";
+import DetailsIconWrapper from "./IconWrapper";
 import { cn } from "@/lib/utils";
 
 export default function DetailsItem({

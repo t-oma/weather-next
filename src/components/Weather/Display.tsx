@@ -1,6 +1,6 @@
 "use client";
 
-import Details from "./Details";
+import Details from "./Details/Details";
 import View from "./View";
 
 export default function WeatherDisplay() {
