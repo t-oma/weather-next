@@ -1,5 +1,3 @@
-"use client";
-
 import Details from "./Details/Details";
 import View from "./View";
 
