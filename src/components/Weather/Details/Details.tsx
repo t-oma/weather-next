@@ -6,8 +6,8 @@ import AstrologyCard from "./AstrologyCard";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import DetailsTemperature from "./Temperature";
+import { Separator } from "@/components/ui/separator";
 
 export default function Details() {
     const { coords, error: geoError, loading: geoLoading } = useGeolocation();
@@ -40,7 +40,7 @@ export default function Details() {
                     <Skeleton className="bg-secondary h-[44px] w-16" />
                     <Skeleton className="bg-secondary h-[44px] w-16" />
                 </div>
-                <Separator className="" />
+                <Separator className="w-full" />
                 <div className="flex flex-1 flex-col gap-4 py-4">
                     <Skeleton className="h-full min-h-40 w-full bg-purple-300/50" />
                     <Skeleton className="bg-primary-300/50 h-full min-h-40 w-full" />
