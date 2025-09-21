@@ -15,7 +15,7 @@ export default function SettingsMenu() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    className="bg-background hover:bg-accent active:bg-base-200 absolute top-2 right-2 rounded-full"
+                    className="bg-background hover:bg-accent active:bg-base-200 absolute top-2 right-2 z-10 rounded-full"
                     size="icon"
                 >
                     <Settings />
