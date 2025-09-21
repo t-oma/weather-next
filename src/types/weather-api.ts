@@ -11,16 +11,18 @@ export type WeatherApiLocation = {
     localtime: string;
 };
 
+export type WeatherApiCondition = {
+    text: string;
+    icon: string;
+    code: number;
+};
+
 export type WeatherApiCurrent = {
     last_updated_epoch: number;
     last_updated: string;
     temp_c: number;
     is_day: number;
-    condition: {
-        text: string;
-        icon: string;
-        code: number;
-    };
+    condition: WeatherApiCondition;
     wind_kph: number;
     wind_degree: number;
     wind_dir: string;
