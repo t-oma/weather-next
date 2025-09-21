@@ -8,7 +8,7 @@ export function useCityPhotoQuery<TSelected = CityPhotoApiResponse>(
     coords: Coords | null,
     select?: (data: CityPhotoApiResponse) => TSelected
 ): UseQueryResult<TSelected> {
-    const nc = coords ? normalizeCoords(coords, 6) : null;
+    const nc = coords ? normalizeCoords(coords, 5) : null;
 
     return useQuery<CityPhotoApiResponse, Error, TSelected, QueryKey>({
         queryKey: ["cityPhoto", `${nc?.lat},${nc?.lon}`],

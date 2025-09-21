@@ -9,7 +9,7 @@ export function useWeatherQuery<TSelected = WeatherApiResponse>(
     coords: Coords | null,
     select?: (data: WeatherApiResponse) => TSelected
 ): UseQueryResult<TSelected> {
-    const nc = coords ? normalizeCoords(coords, 6) : null;
+    const nc = coords ? normalizeCoords(coords, 5) : null;
 
     return useQuery<WeatherApiResponse, Error, TSelected, QueryKey>({
         queryKey: ["weather", `${nc?.lat},${nc?.lon}`],
