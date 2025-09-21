@@ -2,12 +2,9 @@ import { Moon, Sunrise, Sunset } from "lucide-react";
 import DetailsCard from "./Card";
 import DetailsItem from "./Item";
 import { DayAstro } from "@/types/weather-api";
+import { memo } from "react";
 
-export default function AstrologyCard({
-    sunrise,
-    sunset,
-    moon_phase,
-}: DayAstro) {
+function AstrologyCard({ sunrise, sunset, moon_phase }: DayAstro) {
     return (
         <DetailsCard
             title="Astrology"
@@ -46,3 +43,5 @@ export default function AstrologyCard({
         </DetailsCard>
     );
 }
+
+export default memo(AstrologyCard);

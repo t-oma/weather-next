@@ -2,8 +2,9 @@ import { Droplet, Umbrella } from "lucide-react";
 import DetailsCard from "./Card";
 import DetailsItem from "./Item";
 import { DayDay, WeatherApiCurrent } from "@/types/weather-api";
+import { memo } from "react";
 
-export default function HumidityCard({
+function HumidityCard({
     precip_mm,
     humidity,
     daily_chance_of_rain,
@@ -43,3 +44,5 @@ export default function HumidityCard({
         </DetailsCard>
     );
 }
+
+export default memo(HumidityCard);

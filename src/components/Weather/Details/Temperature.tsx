@@ -1,6 +1,7 @@
 import { WeatherApiCurrent } from "@/types/weather-api";
+import { memo } from "react";
 
-export default function DetailsTemperature({
+function DetailsTemperature({
     temp,
     feelslike,
 }: {
@@ -21,3 +22,5 @@ export default function DetailsTemperature({
         </section>
     );
 }
+
+export default memo(DetailsTemperature);

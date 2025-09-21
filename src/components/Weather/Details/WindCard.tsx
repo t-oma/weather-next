@@ -2,12 +2,9 @@ import { Cloud, Thermometer, Wind } from "lucide-react";
 import DetailsCard from "./Card";
 import DetailsItem from "./Item";
 import { WeatherApiCurrent } from "@/types/weather-api";
+import { memo } from "react";
 
-export default function WindCard({
-    windchill_c,
-    cloud,
-    wind_kph,
-}: WeatherApiCurrent) {
+function WindCard({ windchill_c, cloud, wind_kph }: WeatherApiCurrent) {
     return (
         <DetailsCard
             title="Wind"
@@ -43,3 +40,5 @@ export default function WindCard({
         </DetailsCard>
     );
 }
+
+export default memo(WindCard);
