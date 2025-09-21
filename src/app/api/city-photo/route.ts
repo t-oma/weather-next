@@ -39,7 +39,6 @@ export async function GET(req: Request) {
                     "apartment_building",
                     "apartment_complex",
                     "camping_cabin",
-                    "church",
                 ],
                 maxResultCount: 5,
                 locationRestriction: {
