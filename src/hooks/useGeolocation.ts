@@ -1,7 +1,6 @@
 "use client";
+import { Coords } from "@/types/weather-api";
 import { useEffect, useState, useRef } from "react";
-
-type Coords = { lat: number; lon: number };
 
 export function useGeolocation() {
     const [coords, setCoords] = useState<Coords | null>(null);
@@ -20,7 +19,7 @@ export function useGeolocation() {
         }
 
         const options: PositionOptions = {
-            enableHighAccuracy: false,
+            enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 60_000,
         };
