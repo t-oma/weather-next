@@ -1,4 +1,4 @@
-import { testData, WeatherApiResponse } from "@/types/weather-api";
+import { Coords, testData, WeatherApiResponse } from "@/types/weather-api";
 import { hget } from "./helpers";
 import { RequestInit } from "next/dist/server/web/spec-extension/request";
 
@@ -9,8 +9,7 @@ import { RequestInit } from "next/dist/server/web/spec-extension/request";
  * @returns Weather data
  */
 export async function getWeather(
-    latitude: number,
-    longitude: number,
+    coords: Coords,
     options?: RequestInit
 ): Promise<WeatherApiResponse> {
     const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
@@ -18,17 +17,11 @@ export async function getWeather(
         throw new Error("Missing WEATHER_API_KEY environment variable");
     }
 
-    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${latitude},${longitude}&days=1&aqi=no&alerts=no`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${coords.lat},${coords.lon}&days=1&aqi=no&alerts=no`;
 
     return testData;
 
-    const response = await hget<WeatherApiResponse>(url, {
-        next: {
-            revalidate: 60,
-            tags: ["weather", `location:${latitude},${longitude}`],
-        },
-        ...options,
-    });
+    const response = await hget<WeatherApiResponse>(url, options);
 
     return response;
 }

@@ -13,8 +13,7 @@ export function useWeatherQuery<TSelected = WeatherApiResponse>(
 
     return useQuery<WeatherApiResponse, Error, TSelected, QueryKey>({
         queryKey: ["weather", `${nc?.lat},${nc?.lon}`],
-        queryFn: async ({ signal }) =>
-            await getWeather(nc!.lat, nc!.lon, { signal }),
+        queryFn: async ({ signal }) => await getWeather(nc!, { signal }),
         enabled: !!nc,
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: true,
