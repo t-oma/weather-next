@@ -1,3 +1,5 @@
+export type Coords = { lat: number; lon: number };
+
 export type WeatherApiLocation = {
     name: string;
     region: string;
