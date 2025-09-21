@@ -5,6 +5,8 @@ import {
     QueryClient,
     QueryClientProvider,
 } from "@tanstack/react-query";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
 function makeQueryClient() {
     return new QueryClient({
@@ -14,6 +16,7 @@ function makeQueryClient() {
                 // above 0 to avoid refetching immediately on the client
                 refetchOnWindowFocus: true,
                 staleTime: 5 * 60 * 1000,
+                gcTime: 10 * 60 * 1000,
             },
         },
     });
@@ -35,12 +38,37 @@ function getQueryClient() {
     }
 }
 
+const persister =
+    typeof window !== "undefined"
+        ? createAsyncStoragePersister({ storage: window.localStorage })
+        : undefined;
+
 export function QueryProvider({ children }: { children: React.ReactNode }) {
     const queryClient = getQueryClient();
 
+    if (!persister) {
+        return (
+            <QueryClientProvider client={queryClient}>
+                {children}
+            </QueryClientProvider>
+        );
+    }
+
     return (
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{
+                persister,
+                maxAge: 5 * 60 * 1000,
+                // dehydrateOptions: {
+                //   shouldDehydrateQuery: (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "weather",
+                // },
+            }}
+            onSuccess={() => {
+                console.log("success");
+            }}
+        >
             {children}
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
     );
 }
