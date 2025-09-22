@@ -6,6 +6,7 @@ import { classifyWeather } from "@/lib/weather-classify";
 import { WeatherApiResponse } from "@/types/weather-api";
 import { createElement, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { RainDOM } from "./Effects/RainDOM";
 
 const weatherSelector = (data: WeatherApiResponse) => ({
     code: data.current.condition.code,
@@ -28,11 +29,19 @@ export default function BackgroundTheme() {
         root.setAttribute("data-weather", category);
         root.setAttribute("data-intensity", intensity);
         root.setAttribute("data-time", weather.isDay ? "day" : "night");
-
-        return () => {};
     }, [weather, isFetching]);
 
-    // return createPortal(<div className=""></div>, document.body);
+    if (!weather || isFetching) return;
+    const { intensity } = classifyWeather(weather.code);
 
-    return null;
+    return createPortal(
+        <RainDOM
+            intensity={intensity}
+            showBackRow={true}
+            showSplat={false}
+        />,
+        document.body
+    );
+
+    // return null;
 }
