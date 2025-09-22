@@ -1,9 +1,10 @@
-import { Coords, testData, WeatherApiResponse } from "@/types/weather-api";
+import { Coords, WeatherApiResponse } from "@/types/weather-api";
 import { hget } from "./helpers";
 import { RequestInit } from "next/dist/server/web/spec-extension/request";
 
 /**
  * Get weather data for a given location
+ *
  * @param location Location name
  * @throws Error if API key is not set or location is invalid
  * @returns Weather data
@@ -18,8 +19,6 @@ export async function getWeather(
     }
 
     const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${coords.lat},${coords.lon}&days=1&aqi=no&alerts=no`;
-
-    return testData;
 
     const response = await hget<WeatherApiResponse>(url, options);
 
