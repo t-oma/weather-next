@@ -1,0 +1,67 @@
+:root {
+    --backcolor: var(--primary);
+    --backcolor-100: var(--primary-100);
+}
+
+@theme inline {
+    --color-backcolor: var(--backcolor);
+    --color-backcolor-100: var(--backcolor-100);
+}
+
+/* Clear */
+[data-weather="clear"][data-time="day"] {
+    --backcolor-100: oklch(0.95 0.05 220);
+    --backcolor: oklch(0.8 0.12 230);
+}
+[data-weather="clear"][data-time="night"] {
+    --backcolor-100: var(--base-600);
+    --backcolor: var(--base-700);
+}
+
+/* Clouds / Overcast */
+[data-weather="clouds"] {
+    --backcolor-100: oklch(0.9 0.02 240);
+    --backcolor: oklch(0.6 0.02 240);
+}
+
+/* Fog / Mist */
+[data-weather="fog"] {
+    --backcolor-100: oklch(0.93 0.01 240);
+    --backcolor: oklch(0.75 0.01 240);
+}
+
+/* Rain — інтенсивність впливає на контраст */
+[data-weather="rain"][data-intensity="light"] {
+    --backcolor-100: oklch(0.85 0.02 240);
+    --backcolor: oklch(0.55 0.02 240);
+}
+[data-weather="rain"][data-intensity="moderate"],
+[data-weather="rain"][data-intensity="heavy"] {
+    --backcolor-100: oklch(0.7 0.02 240);
+    --backcolor: oklch(0.4 0.02 240);
+}
+
+/* Snow */
+[data-weather="snow"] {
+    --backcolor-100: oklch(0.98 0.01 240);
+    --backcolor: oklch(0.9 0.01 240);
+}
+
+/* Thunder */
+[data-weather="thunder"],
+[data-weather="thunder_rain"],
+[data-weather="thunder_snow"] {
+    --backcolor-100: oklch(0.2 0.03 260);
+    --backcolor: oklch(0.1 0.02 255);
+}
+
+@layer base {
+    body {
+        @apply from-backcolor-100 to-backcolor;
+    }
+}
+
+body {
+    position: relative;
+    isolation: isolate;
+}
