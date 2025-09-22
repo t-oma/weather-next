@@ -4,9 +4,8 @@ import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { classifyWeather } from "@/lib/weather-classify";
 import { WeatherApiResponse } from "@/types/weather-api";
-import { createElement, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { RainDOM } from "./Effects/RainDOM";
+import { useEffect } from "react";
+import EffectsHost from "./Effects/Host";
 
 const weatherSelector = (data: WeatherApiResponse) => ({
     code: data.current.condition.code,
@@ -32,16 +31,13 @@ export default function BackgroundTheme() {
     }, [weather, isFetching]);
 
     if (!weather || isFetching) return;
-    const { intensity } = classifyWeather(weather.code);
+    const { category, intensity } = classifyWeather(weather.code);
 
-    return createPortal(
-        <RainDOM
-            intensity={intensity}
-            showBackRow={true}
-            showSplat={false}
-        />,
-        document.body
+    return (
+        <EffectsHost
+            category={"rain"}
+            intensity={"heavy"}
+        />
     );
-
     // return null;
 }

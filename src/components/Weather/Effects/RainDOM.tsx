@@ -13,29 +13,36 @@ type Props = {
     showSplat?: boolean;
 };
 
-export function RainDOM({
+export default function RainDOM({
     intensity,
     showBackRow = true,
     showSplat = true,
 }: Props) {
     const dropsCountByIntensity =
-        intensity === "heavy" ? 120 : intensity === "moderate" ? 80 : 20;
+        intensity === "heavy" ? 100 : intensity === "moderate" ? 40 : 5;
 
     const drops = useMemo(() => {
         const front: Array<{ left: number; delay: number; dur: number }> = [];
         const back: Array<{ left: number; delay: number; dur: number }> = [];
 
-        let x = 0;
-        while (x < 100) {
-            const step = 2 + Math.floor(Math.random() * 4); // 2..5%
-            x += step;
+        for (let i = 0; i < dropsCountByIntensity; i++) {
+            const binStart = i / dropsCountByIntensity;
+            const binEnd = (i + 1) / dropsCountByIntensity;
+            const jitter = Math.random() * (binEnd - binStart); // ~U[0, 1/count)
+            const left = clamp01(binStart + jitter) * 100; // %
+            const delay = Math.random() * 0.9; // 0..0.9s
+            const dur = 0.5 + Math.random() * 1.0; // 0.5..1.5s
 
-            const r = Math.floor(1 + Math.random() * 98); // delay 0.001..0.098s
-            const d = 0.5 + r / 100; // 0.51..1.48s
-            front.push({ left: x, delay: r / 100, dur: d });
-            back.push({ left: 100 - x, delay: r / 100, dur: d });
-            if (front.length >= dropsCountByIntensity) break;
+            front.push({ left, delay, dur });
+            back.push({ left: 100 - left, delay, dur });
         }
+
+        for (let i = front.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [front[i], front[j]] = [front[j], front[i]];
+            [back[i], back[j]] = [back[j], back[i]];
+        }
+
         return { front, back };
     }, [dropsCountByIntensity]);
 
