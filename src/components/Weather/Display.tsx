@@ -4,7 +4,7 @@ import View from "./View";
 
 export default function WeatherDisplay() {
     return (
-        <div className="container flex h-[70vh] overflow-hidden rounded-lg">
+        <div className="z-20 container flex h-[70vh] overflow-hidden rounded-lg">
             <View />
             <BackgroundTheme />
             <div className="bg-background flex flex-1/3 flex-col">
