@@ -5,6 +5,7 @@ import { Skeleton } from "../ui/skeleton";
 import { useWeatherQuery } from "@/hooks/useWeatherQuery";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { WeatherApiResponse } from "@/types/weather-api";
+import Image from "next/image";
 
 const weatherSelector = (data: WeatherApiResponse) => ({
     current: data.current,
@@ -12,7 +13,7 @@ const weatherSelector = (data: WeatherApiResponse) => ({
 });
 
 export default function ViewInfo() {
-    const { coords, error: geoError, loading: geoLoading } = useGeolocation();
+    const { coords, error: geoError } = useGeolocation();
     const {
         data: weather,
         error: fetchError,
@@ -36,13 +37,16 @@ export default function ViewInfo() {
 
     if (!weather || isFetching) {
         return (
-            <div className="absolute right-6 bottom-6 left-6">
-                <div className="flex flex-col text-white">
-                    <Skeleton className="h-6 w-32" />
-                    <div className="flex items-center gap-2">
-                        <Skeleton className="mt-2 h-12 w-32" />
-                        <span className="text-6xl font-bold">°C</span>
+            <div className="absolute right-4 bottom-4 left-4 rounded-md p-2 backdrop-blur-[2px]">
+                <div className="flex items-center justify-between">
+                    <div className="flex flex-col text-white">
+                        <Skeleton className="h-6 w-32" />
+                        <div className="flex items-center gap-2">
+                            <Skeleton className="mt-2 h-12 w-32" />
+                            <span className="text-6xl font-bold">°C</span>
+                        </div>
                     </div>
+                    <Skeleton className="h-16 w-16" />
                 </div>
                 <Separator className="my-2" />
                 <div className="flex items-center justify-between gap-2 text-white">
@@ -54,14 +58,24 @@ export default function ViewInfo() {
     }
 
     return (
-        <div className="absolute right-6 bottom-6 left-6">
-            <div className="flex flex-col text-white">
-                <span className="text-xl font-medium">
-                    {weather.current.condition.text}
-                </span>
-                <span className="text-6xl font-bold">
-                    {weather.current.temp_c} °C
-                </span>
+        <div className="absolute right-4 bottom-4 left-4 rounded-md p-2 backdrop-blur-[2px]">
+            <div className="flex items-center justify-between">
+                <div className="flex flex-col text-white">
+                    <span className="text-xl font-medium">
+                        {weather.current.condition.text}
+                    </span>
+                    <span className="text-6xl font-bold">
+                        {weather.current.temp_c} °C
+                    </span>
+                </div>
+                <Image
+                    src={"https:" + weather.current.condition.icon}
+                    alt=""
+                    height={64}
+                    width={64}
+                    priority={false}
+                    className="bg-secondary/50 rounded-md"
+                />
             </div>
             <Separator className="my-2" />
             <div className="flex items-center justify-between gap-2 text-white">
